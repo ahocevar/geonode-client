@@ -71,7 +71,7 @@ GeoExplorer.PhotoGrid = Ext.extend(Ext.Panel, {
                 height: 86,
                 flex: 1,
                 layout: "fit",
-                cls: "images",
+                cls: "photogrid-images",
                 items: [{
                     xtype: "dataview",
                     itemSelector: 'div.thumb-wrap',
@@ -109,22 +109,30 @@ GeoExplorer.PhotoGrid = Ext.extend(Ext.Panel, {
         this.add({
             xtype: "propertygrid",
             region: "center",
+            border: false,
             source: source
         });
     },
     
     showFull: function(record, layer) {
         var activeItem = record.store.indexOf(record),
-            count = record.store.getCount();
+            count = record.store.getCount(),
+            path = this.path;
         var photos = new Ext.Window({
             title: "Photos",
             modal: true,
-            maximizable: true,
             width: 400,
+            height: 348,
+            maximizable: true,
+            cls: "photogrid-image",
             bodyCfg: {
-                tag: "img",
-                src: String.format(this.path, layer, record.data.full),
-                style: "text-align:center"
+                tag: "div",
+                "class": "full-img-wrap",
+                children: {
+                    tag: "img",
+                    src: String.format(path, layer, record.store.getAt(activeItem).get("full")),
+                    "class": "full-img"
+                }
             },
             bbar: [{
                 iconCls: "x-tbar-page-prev",
@@ -133,7 +141,7 @@ GeoExplorer.PhotoGrid = Ext.extend(Ext.Panel, {
                 handler: function() {
                     if (activeItem > 0) {
                         activeItem -= 1;
-                        photos.body.dom.src = template.apply(record.store.getAt(activeItem).data);
+                        photos.body.dom.firstChild.src = String.format(path, layer, record.store.getAt(activeItem).get("full"));
                         photos.current.setText((activeItem + 1) + " / " + count);
                     }
                     if (activeItem == 0) {
@@ -154,7 +162,7 @@ GeoExplorer.PhotoGrid = Ext.extend(Ext.Panel, {
                 handler: function() {
                     if (activeItem < count - 1) {
                         activeItem += 1;
-                        photos.body.dom.src = template.apply(record.store.getAt(activeItem).data);
+                        photos.body.dom.firstChild.src = String.format(path, layer, record.store.getAt(activeItem).get("full"));
                         photos.current.setText((activeItem + 1) + " / " + count);
                         if (activeItem == count - 1) {
                             this.disable();

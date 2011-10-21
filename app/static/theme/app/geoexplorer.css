@@ -379,24 +379,33 @@ float:right;
 }
 
 /* PhotoGrid */
-.images {
+.photogrid-images {
 	background: #fff;
 }
-.images .thumb {
+.photogrid-images .thumb {
 	background: #dddddd;
 	padding: 3px;
 }
-.images .thumb img {
+.photogrid-images .thumb img {
 	border: 1px solid white;
 	height: 60px;
 }
-.images .thumb-wrap {
+.photogrid-images .thumb-wrap {
 	float: left;
 	margin: 4px;
 	margin-right: 0;
 	padding: 5px;
 }
-.images .x-view-selected .thumb {
+.photogrid-images .x-view-selected .thumb {
 	background: #8db2e3;
 	cursor: pointer;
 }
+.photogrid-image .full-img-wrap {
+    text-align: center;
+    overflow: auto;
+    overflow-y: hidden;
+}
+.photogrid-image .full-img {
+    height: 100%;
+}
+
